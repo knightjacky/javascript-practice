@@ -12,11 +12,11 @@ function twoSum(nums, target) {
     }
     return [];
 }
-var twoSum = function(nums, target) {
+var twoSum = function (nums, target) {
     const result = []
-    for(let i =0; i < nums.length; i++){
-        for(let j=i + 1; j< nums.length; j++){
-            if(nums[i]+nums[j] === target){
+    for (let i = 0; i < nums.length; i++) {
+        for (let j = i + 1; j < nums.length; j++) {
+            if (nums[i] + nums[j] === target) {
                 result.push(nums[i], nums[j])
             }
         }
@@ -30,25 +30,29 @@ function findDuplicates(nums) {
     const seen = new Set();
     const duplicates = new Set();
     for (const num of nums) {
-      if (seen.has(num)) {
-        duplicates.add(num);
-      } else {
-        seen.add(num);
-      }
+        if (seen.has(num)) {
+            duplicates.add(num);
+        } else {
+            seen.add(num);
+        }
     }
     return [...duplicates];
 }
 // Check if string is a valid email.
 // 👉 Skills: regex, validation
 function isValidEmail(email) {
-  const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return pattern.test(email);
+    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return pattern.test(email);
 }
 // Reverse Words in a String
 // Input: "" a good   example ""
 // Output: "example good a"
 function reverseWords(str) {
     return str.trim().split(/\s+/).reverse().join(' ');
+}
+function reverseWords(str) {
+    const arr = str.replace(/[^a-zA-Z0-9]/g, ' ').split(/\s+/).reverse().join(' ');
+    return arr;
 }
 // Valid Palindrome
 // Input: s = "A man, a plan, a canal: Panama"
@@ -80,16 +84,31 @@ function maxNumber(nums) {
     }
     return max;
 }
+function maxNumber(nums) {
+    let max = nums[0];
+    for (const num of nums) {
+        if (max < num) {
+            max = num;
+        }
+    }
+    return max;
+}
 // Remove duplicates from an array
 function removeDuplicates(array) {
     const newarray = [...new Set(array)];
     return newarray;
 }
 // Find the second largest number in an array
+// input: [5,5,3,1]
+// output: 3
 function secondLargestNumber(nums) {
     const max = maxNumber(nums);
     const newnums = nums.filter(num => num !== max);
     return maxNumber(newnums);
+}
+function secondLargestNumber(nums) {
+    const arry = [...new Set(nums)].sort((a, b) => b - a);
+    return arry[1];
 }
 // Find the second smallest number in an array
 function secondSmallestNumber(nums) {
@@ -124,12 +143,11 @@ function flattenArray(arr) {
     return arr.flat(Infinity);
 }
 // Rotate an array by k steps
-// Input:  nums = [1, 2, 3, 4, 5, 6, 7], k = 3
+// Input:  nums = [1, 2, 3, 4, 5, 6, 7], k = 3 or 10
 // Output: [5, 6, 7, 1, 2, 3, 4]
 function rotateArray(arr, k) {
-    const n = arr.length;
-    k = k % n;
-    return [...arr.slice( -k ), ...arr.slice(0, n -k)];
+    k = k % arr.length;
+    return [...arr.slice(-k), ...arr.slice(0, arr.length - k)];
 }
 // "racecar" → cleaned: "racecar" → reversed: "racecar" → true ✅
 // "hello" → cleaned: "hello" → reversed: "olleh" → false ✅
@@ -153,13 +171,25 @@ function countCharacterOccurrences(str) {
     }
     return count;
 }
+function countCharacterOccurrences(str) {
+    const set = {};
+    for (const letter of str.split('')) {
+        if (set[letter]) {
+            set[letter] += 1;
+        }
+        else {
+            set[letter] = 1;
+        }
+    }
+    return set
+}
 //////////////////////review this function//////////////////////
 // Find the longest word in a sentence
 function findLongestWord(str) {
     return str.split(' ').reduce((longest, word) =>
         word.length > longest.length ? word : longest
-    , '');
-} 
+        , '');
+}
 function findLongestWord(str) {
     const words = str.split(' ');
     let longest = '';
@@ -199,6 +229,33 @@ function findMissingNumber(arr) {
     const actual = arr.reduce((sum, num) => sum + num, 0); // Sum of given array
     return expected - actual; // The difference is the missing number
 }
+function missingNum(arr) {
+    let result;
+    for (let i = 0; i < arr.length + 1; i++) {
+        if (i + 1 !== arr[i]) {
+           return result = i+1;
+        }
+    }
+}
+
+// Find Missing Number 
+// input: arr = [1, 2, 4, 5, 7], 
+// output: 3, 6
+function findMissing(arr) {
+  const result = [];
+
+  for (let i = 1; i <= arr[arr.length - 1]; i++) {
+    if (!arr.includes(i)) {
+      result.push(i);
+    }
+  }
+
+  return result;
+}
+console.log(findMissing([1, 2, 4, 5, 7]));
+// [3, 6]
+
+
 // Check if a number is prime
 //   console.log(isPrime(7));  // true
 //   console.log(isPrime(10)); // false
@@ -211,15 +268,27 @@ function isPrime(num) {
     }
     return true;
 }
+
+function isPrime(n) {
+  if (n <= 1) return false; // 0, 1 are not prime
+
+  for (let i = 2; i < n; i++) {
+    if (n % i === 0) {
+      return false;
+    }
+  }
+  return true;
+}
+
 //////////////////////review this function//////////////////////
-  function isPrime(n) {
+function isPrime(n) {
     if (n < 2) return false;
     for (let i = 2; i * i <= n; i++) {
-      if (n % i === 0) return false;
+        if (n % i === 0) return false;
     }
     return true;
-  }
-  function isPrime(n) {
+}
+function isPrime(n) {
     if (n < 2) return false;
     for (let i = 2; i <= Math.sqrt(n); i++) {
         if (n % i === 0) return false;
@@ -230,7 +299,7 @@ function isPrime(num) {
 // Input:[{ age: 30 }, { age: 20 }]
 // Output:[{ age: 20 }, { age: 30 }]
 function sortByAge(arr) {
-  return [...arr].sort((a, b) => a[key] - b[key]);
+    return [...arr].sort((a, b) => a[key] - b[key]);
 }
 
 // Fibonacci sequence      
@@ -255,11 +324,11 @@ function countVowels(str) {
         }
     }
     return count;
-}  
+}
 function countVowels(str) {
-  return str.split('').reduce((count, char) => {
-    return 'aeiouAEIOU'.includes(char) ? count + 1 : count;
-  }, 0);
+    return str.split('').reduce((count, char) => {
+        return 'aeiouAEIOU'.includes(char) ? count + 1 : count;
+    }, 0);
 }
 // Algorithm Problems
 //   console.log(binarySearch([1, 3, 5, 7, 9], 7)); // 3 (index)
@@ -267,10 +336,10 @@ function countVowels(str) {
 function binarySearch(arr, target) {
     let left = 0;
     let right = arr.length - 1;
-    
+
     while (left <= right) {
         const mid = Math.floor((left + right) / 2);
-        
+
         if (arr[mid] === target) {
             return mid; // Target found, return index
         } else if (arr[mid] < target) {
@@ -289,10 +358,10 @@ function countWords(str) {
     for (const word of words) {
         // count[word] = (count[word] || 0) + 1;
         if (count[word]) {
-            count[word]+=1;
+            count[word] += 1;
         } else {
             count[word] = 1;
-        }  
+        }
     }
     return count;
 }
@@ -325,18 +394,18 @@ function lengthOfLongestSubstring(str) {
     return maxLength;
 }
 
-var lengthOfLongestSubstring = function(str) {
+var lengthOfLongestSubstring = function (str) {
     const seen = new Set();
     const s = str.split('');
     let maxLength = 0;
     let left = 0;
-    for(let right = 0; right < s.length; right++){
-        while(seen.has(s[right])){
+    for (let right = 0; right < s.length; right++) {
+        while (seen.has(s[right])) {
             seen.delete(s[left])
             left++
         }
         seen.add(s[right]);
-        maxLength = Math.max(seen, right-left+1)
+        maxLength = Math.max(seen, right - left + 1)
     }
     return maxLength
 }
@@ -345,52 +414,52 @@ var lengthOfLongestSubstring = function(str) {
 // User types: h → he → hel → hell → hello
 
 function debounce(fn, delay) {
-  let timer;
+    let timer;
 
-  return function (...args) {
-    clearTimeout(timer);
+    return function (...args) {
+        clearTimeout(timer);
 
-    timer = setTimeout(() => {
-      fn.apply(this, args);
-    }, delay);
-  };
+        timer = setTimeout(() => {
+            fn.apply(this, args);
+        }, delay);
+    };
 }
 
 // Retry a failed API call N times.
 // retry(fn, 3)
 // 👉 Skills: async/await, error handling
 async function retry(fn, retries) {
-  let lastError;
+    let lastError;
 
-  for (let i = 0; i < retries; i++) {
-    try {
-      return await fn();
-    } catch (error) {
-      lastError = error;
+    for (let i = 0; i < retries; i++) {
+        try {
+            return await fn();
+        } catch (error) {
+            lastError = error;
+        }
     }
-  }
 
-  throw lastError;
+    throw lastError;
 }
 // find Non-repeating Character in a String
 // Input: "leetcode"
 // Output: "ltcod"
 function findNonRepeatingCharacter(str) {
-  const charCount = {};
-  for (const char of str) {
-    charCount[char] = (charCount[char] || 0) + 1;
-  }
-  const result = [];
-  for (const char of str) {
-    if (charCount[char] === 1) {
-      result.push(char);
+    const charCount = {};
+    for (const char of str) {
+        charCount[char] = (charCount[char] || 0) + 1;
     }
-  }
-  return result;
+    const result = [];
+    for (const char of str) {
+        if (charCount[char] === 1) {
+            result.push(char);
+        }
+    }
+    return result;
 }
 // Merge Two Sorted Arrays
 function mergeSortedArrays(arr1, arr2) {
-    const merged =[...arr1, ...arr2].sort((a, b) => a - b);
+    const merged = [...arr1, ...arr2].sort((a, b) => a - b);
     return merged;
 }
 // Find Intersection of Two Arrays
@@ -402,13 +471,13 @@ function intersection(arr1, arr2) {
     for (const num of arr1) {
         if (set2.has(num)) {
             result.push(num);
-        } 
+        }
     }
     return result;
-}   
+}
 function arrayIntersection(arr1, arr2) {
-  const set2 = new Set(arr2);
-  return [...new Set(arr1.filter(num => set2.has(num)))];
+    const set2 = new Set(arr2);
+    return [...new Set(arr1.filter(num => set2.has(num)))];
 }
 // Longest Substring Without Repeating Characters
 // Input: s = "abcabcbb"
